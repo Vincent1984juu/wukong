@@ -288,23 +288,26 @@
 
         <div class="card">
             <div class="card-title">🎯 下月目标</div>
-            <div class="target-grid">
+            <div id="targetContainer" class="target-grid">
                 <div class="form-group">
                     <label>营业额目标（元）</label>
-                    <input type="number" id="nextMonthTarget" placeholder="如：500000">
+                    <input type="number" class="target-input" data-label="营业额目标" placeholder="如：500000">
                 </div>
                 <div class="form-group">
                     <label>充值目标（元）</label>
-                    <input type="number" id="nextMonthRecharge" placeholder="如：50000">
+                    <input type="number" class="target-input" data-label="充值目标" placeholder="如：50000">
                 </div>
                 <div class="form-group">
                     <label>来客数目标</label>
-                    <input type="number" id="nextMonthCustomers" placeholder="如：20000">
+                    <input type="number" class="target-input" data-label="来客数目标" placeholder="如：20000">
                 </div>
                 <div class="form-group">
                     <label>客单价目标（元）</label>
-                    <input type="number" id="nextMonthAvgPrice" placeholder="如：26">
+                    <input type="number" class="target-input" data-label="客单价目标" placeholder="如：26">
                 </div>
+            </div>
+            <div style="margin-top:12px;">
+                <button class="btn btn-secondary" onclick="addTarget()" style="font-size:13px;padding:8px 16px;">+ 添加目标</button>
             </div>
         </div>
 
@@ -559,9 +562,19 @@
         }
 
         // ========== 行动计划 ==========
-        function addActionItem() {
-            actionItemCount++;
-            const container = document.getElementById('actionPlanContainer');
+        function addTarget() {
+            const container = document.getElementById('targetContainer');
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                    <input type="text" class="target-label-input" placeholder="目标名称" style="flex:1;font-size:13px;padding:4px 8px;border:1px solid #ddd;border-radius:4px;">
+                    <button onclick="this.closest('.form-group').remove()" style="background:#ffebee;color:#c62828;border:none;border-radius:4px;padding:4px 8px;font-size:12px;cursor:pointer;">删除</button>
+                </div>
+                <input type="number" class="target-input" placeholder="输入目标值">
+            `;
+            container.appendChild(div);
+        }
             const div = document.createElement('div');
             div.className = 'action-plan-item';
             div.innerHTML = `
@@ -679,11 +692,23 @@
             });
             if (!actionsHtml) actionsHtml = '<p>（未填写行动计划）</p>';
 
-            // 下月目标
-            const nextTarget = document.getElementById('nextMonthTarget').value || '______';
-            const nextRecharge = document.getElementById('nextMonthRecharge').value || '______';
-            const nextCustomers = document.getElementById('nextMonthCustomers').value || '______';
-            const nextAvgPrice = document.getElementById('nextMonthAvgPrice').value || '______';
+            // 下月目标（动态收集所有目标输入框）
+            let targetHtml = '';
+            document.querySelectorAll('#targetContainer .form-group').forEach(group => {
+                const labelInput = group.querySelector('.target-label-input');
+                const label = labelInput ? labelInput.value : group.querySelector('label')?.textContent || '目标';
+                const input = group.querySelector('.target-input');
+                const value = input ? input.value : '';
+                if (value) {
+                    targetHtml += `
+                        <tr>
+                            <td style="font-weight:600;">${label}</td>
+                            <td class="gap-positive" style="font-size:18px;">${isNaN(parseFloat(value)) ? value : formatMoney(parseFloat(value))}</td>
+                        </tr>
+                    `;
+                }
+            });
+            if (!targetHtml) targetHtml = '<tr><td colspan="2" style="color:#999;">（未填写目标）</td></tr>';
 
             const previewContent = document.getElementById('previewContent');
             previewContent.innerHTML = `
@@ -767,22 +792,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td style="font-weight:600;">营业额</td>
-                                <td class="gap-positive" style="font-size:18px;">${formatMoney(parseFloat(nextTarget) || 0)}</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight:600;">充值</td>
-                                <td class="gap-positive" style="font-size:18px;">${formatMoney(parseFloat(nextRecharge) || 0)}</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight:600;">来客数</td>
-                                <td class="gap-positive" style="font-size:18px;">${parseInt(nextCustomers) ? parseInt(nextCustomers).toLocaleString() : '—'}</td>
-                            </tr>
-                            <tr>
-                                <td style="font-weight:600;">客单价</td>
-                                <td class="gap-positive" style="font-size:18px;">¥${parseFloat(nextAvgPrice) ? parseFloat(nextAvgPrice).toFixed(2) : '—'}</td>
-                            </tr>
+                            ${targetHtml}
                         </tbody>
                     </table>
                 </div>
