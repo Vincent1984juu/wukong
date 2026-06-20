@@ -177,27 +177,6 @@
 
         <!-- ========== 第二部分：店长填写 ========== -->
         <div class="card">
-            <div class="card-title">🔍 问题诊断 · 业绩差距类型</div>
-            <div class="diagnosis-box">
-                <div class="diagnosis-title">本月业绩表现属于哪种情况？（点击选择）</div>
-                <div class="diagnosis-options">
-                    <div class="diagnosis-option" data-value="客单数下降" onclick="selectDiagnosis(this)">
-                        📉 客单数下降<br><small style="color:#999">营业额↓，客单数↓，客单价持平</small>
-                    </div>
-                    <div class="diagnosis-option" data-value="客单价下降" onclick="selectDiagnosis(this)">
-                        💰 客单价下降<br><small style="color:#999">营业额↓，客单价↓，客单数持平</small>
-                    </div>
-                    <div class="diagnosis-option" data-value="双降" onclick="selectDiagnosis(this)">
-                        ⚠️ 客单数&客单价双降<br><small style="color:#999">营业额↓，两者都下降</small>
-                    </div>
-                    <div class="diagnosis-option" data-value="达标但想提升" onclick="selectDiagnosis(this)">
-                        🚀 已达标，想再突破<br><small style="color:#999">营业额达标，寻找机会点</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
             <div class="card-title">🎯 根源分析</div>
             <p style="font-size:13px;color:#666;margin-bottom:16px;">按"营业额=客单价×客单数"框架分类。点击选择符合本门店情况的根源（可多选），双击文字可编辑：</p>
 
@@ -680,11 +659,43 @@
 
                 <div class="section">
                     <div class="section-title">📊 数据总览</div>
-                    <p><strong>月营业额：</strong>${formatMoney(data.actualSales)} | 目标：${formatMoney(data.targetSales)} | 达成率：${achievement}%</p>
-                    <p><strong>环比：</strong>${salesMom} | <strong>同比：</strong>${salesYoy}</p>
-                    <p><strong>来客数：</strong>${data.actualCustomers.toLocaleString()} | 环比：${customersMom}</p>
-                    <p><strong>客单价：</strong>¥${data.actualAvgPrice.toFixed(2)} | 环比：${avgPriceMom}</p>
-                    <p><strong>与目标差额：</strong>${gap >= 0 ? '+' : ''}${formatMoney(gap)}</p>
+                    <table class="data-table" style="margin-bottom:12px;">
+                        <thead>
+                            <tr>
+                                <th>指标</th><th>实际</th><th>目标</th><th>达成率</th><th>差额</th><th>环比</th><th>同比</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:600;">营业额</td>
+                                <td>${formatMoney(data.actualSales)}</td>
+                                <td>${formatMoney(data.targetSales)}</td>
+                                <td class="${achievement >= 100 ? 'gap-positive' : 'gap-negative'}">${achievement}%</td>
+                                <td class="${gap >= 0 ? 'gap-positive' : 'gap-negative'}">${gap >= 0 ? '+' : ''}${formatMoney(gap)}</td>
+                                <td class="${salesMom >= 0 ? 'gap-positive' : 'gap-negative'}">${salesMom}</td>
+                                <td class="${salesYoy >= 0 ? 'gap-positive' : 'gap-negative'}">${salesYoy}</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:600;">来客数</td>
+                                <td>${data.actualCustomers.toLocaleString()}</td>
+                                <td>${data.targetCustomers > 0 ? data.targetCustomers.toLocaleString() : '—'}</td>
+                                <td class="${data.targetCustomers > 0 ? (data.actualCustomers >= data.targetCustomers ? 'gap-positive' : 'gap-negative') : ''}">${data.targetCustomers > 0 ? (data.actualCustomers / data.targetCustomers * 100).toFixed(1) + '%' : '—'}</td>
+                                <td class="${customersGap >= 0 ? 'gap-positive' : 'gap-negative'}">${customersGap >= 0 ? '+' : ''}${customersGap.toLocaleString()}</td>
+                                <td class="${customersMom >= 0 ? 'gap-positive' : 'gap-negative'}">${customersMom}</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:600;">客单价</td>
+                                <td>¥${data.actualAvgPrice.toFixed(2)}</td>
+                                <td>${data.targetAvgPrice > 0 ? '¥' + data.targetAvgPrice.toFixed(2) : '—'}</td>
+                                <td class="${data.targetAvgPrice > 0 ? (data.actualAvgPrice >= data.targetAvgPrice ? 'gap-positive' : 'gap-negative') : ''}">${data.targetAvgPrice > 0 ? (data.actualAvgPrice / data.targetAvgPrice * 100).toFixed(1) + '%' : '—'}</td>
+                                <td class="${avgPriceGap >= 0 ? 'gap-positive' : 'gap-negative'}">${avgPriceGap >= 0 ? '+' : ''}¥${avgPriceGap.toFixed(2)}</td>
+                                <td class="${avgPriceMom >= 0 ? 'gap-positive' : 'gap-negative'}">${avgPriceMom}</td>
+                                <td>—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><strong>核心差距：</strong>${gapDesc}</p>
                 </div>
 
                 <div class="section">
@@ -695,11 +706,6 @@
                 <div class="section">
                     <div class="section-title">🔍 核心差距</div>
                     <p>${gapDesc}</p>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">🔍 问题诊断</div>
-                    <p>业绩类型：${selectedDiagnosis || '（未选择）'}</p>
                 </div>
 
                 <div class="section">
