@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>聚满分 · 营业额AI分析工具</title>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
@@ -522,8 +525,15 @@
         }
 
         // 检查是否有AI数据
-        if (window.__AI_DATA__) {
+        if (window.__AI_DATA__ && window.__AI_DATA__.storeName) {
             renderAIAnalysis(window.__AI_DATA__);
+        } else {
+            // 数据未加载，可能缓存问题，尝试再次检查
+            setTimeout(function() {
+                if (window.__AI_DATA__ && window.__AI_DATA__.storeName) {
+                    renderAIAnalysis(window.__AI_DATA__);
+                }
+            }, 500);
         }
 
         // 外部注入数据接口
