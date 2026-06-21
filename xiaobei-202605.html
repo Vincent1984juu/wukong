@@ -525,16 +525,23 @@
         }
 
         // 检查是否有AI数据
-        if (window.__AI_DATA__ && window.__AI_DATA__.storeName) {
-            renderAIAnalysis(window.__AI_DATA__);
-        } else {
-            // 数据未加载，可能缓存问题，尝试再次检查
-            setTimeout(function() {
+        function initAnalysis() {
+            try {
                 if (window.__AI_DATA__ && window.__AI_DATA__.storeName) {
                     renderAIAnalysis(window.__AI_DATA__);
                 }
-            }, 500);
+            } catch (e) {
+                document.getElementById('aiAnalysisContent').innerHTML = '<p style="color:red;text-align:center;padding:40px 0;">加载出错: ' + e.message + '</p>';
+            }
         }
+
+        // 立即尝试
+        initAnalysis();
+
+        // 页面加载完成后再尝试一次
+        window.onload = function() {
+            initAnalysis();
+        };
 
         // 外部注入数据接口
         window.injectAIData = function(data) {
