@@ -19,7 +19,7 @@ description: |
 
 **页面地址格式**：
 ```
-https://vincent1984juu.github.io/wukong/{拼音}-{节日}-{时间戳}.html
+https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/{拼音}-{节日}-{时间戳}.html
 ```
 
 **数据注入方式**：只注入节日名称，不注入门店和区域。
@@ -56,7 +56,7 @@ git push origin master
 我已为你准备好作战计划框架，点击链接填写即可。
 
 👉 **点击填写：**
-https://vincent1984juu.github.io/wukong/{拼音}-{节日}-{时间戳}.html
+https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/{拼音}-{节日}-{时间戳}.html
 
 **操作指引：**
 
@@ -91,7 +91,7 @@ if os.path.exists(pending_file):
 
 records.append({
     'holiday': '{节日}',
-    'url': 'https://vincent1984juu.github.io/wukong/{拼音}-{节日}-{时间戳}.html',
+    'url': 'https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/{拼音}-{节日}-{时间戳}.html',
     'created_at': datetime.datetime.now().isoformat()
 })
 

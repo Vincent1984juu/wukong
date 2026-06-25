@@ -151,7 +151,7 @@ git push -u github master --force
 
 **第一步：数据已分析，点击链接继续完成报告。**
 
-点击链接：👉 https://vincent1984juu.github.io/wukong/{拼音}-{年月}-{时间戳}.html
+点击链接：👉 https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/{拼音}-{年月}-{时间戳}.html
 
 **提示1：**
 
@@ -184,7 +184,7 @@ records.append({
     'store_name': '{门店名}',
     'region': '{区域}',
     'month': '{月份}',
-    'url': 'https://vincent1984juu.github.io/wukong/{拼音}-{年月}-{时间戳}.html',
+    'url': 'https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/{拼音}-{年月}-{时间戳}.html',
     'created_at': datetime.datetime.now().isoformat()
 })
 
@@ -290,7 +290,7 @@ else:
 
 | 门店 | 文件名 | 链接 |
 |------|--------|------|
-| 小北店 | `xiaobei-202605-202506211030.html` | https://vincent1984juu.github.io/wukong/xiaobei-202605-202506211030.html |
+| 小北店 | `xiaobei-202605-202506211030.html` | https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/xiaobei-202605-202506211030.html |
 
 > 新增门店时，更新上表并追加到下方「批量重新生成」脚本中。
 > **每个链接带唯一时间戳，彻底避免缓存问题**
@@ -348,7 +348,7 @@ echo "✅ 所有门店已重新生成并推送"
 
 GitHub Pages 有 **1-3分钟** 缓存，推送后需要稍等刷新。建议加 `?v=随机数` 参数强制刷新：
 ```
-https://vincent1984juu.github.io/wukong/xiaobei-202605.html?v=2
+https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/xiaobei-202605.html?v=2
 ```
 
 ---

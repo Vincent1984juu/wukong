@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-25T01:19:28.074Z",
+  "updatedAt": "2026-06-25T05:11:37.727Z",
   "entries": {
     "memory:memory/2026-05-28.md:37:58": {
       "key": "memory:memory/2026-05-28.md:37:58",
@@ -300,18 +300,21 @@
       "endLine": 46,
       "source": "memory",
       "snippet": "- **已申请通过**：Wiki.Workspace.Read, Wiki.Node.Read, Wiki.Workspace.Search, Contact.User.Read - **缺少权限**：Storage.File.Read（读取在线文档正文需要） - 当前只能获取文档标题、URL、类型、大小、字数等元信息，无法读取 Excel/视频/PDF 正文 ## 4. 用户 StaffID - 晓腾的 staffId / unionId: `16927521153891793`（用于钉钉 Wiki 接口 operatorId 参数） ## 5. Excel 数据分析 - 分析文件：聚满分人才库&考核表.xlsx - 按三个区域（孙红梅区24人、陈桂莲区16人、陈超平区13人）统计： - 群总结最多/最少 - 培训进度最快/最慢 - 师傅姓名已关联 ## 6. 待处理请求 - 营业额分析（12:53 开启新的） - 损益分析（13:05/13:07 两次请求） - 核桃马里奥标准查看（13:15，等待 Storage.DownloadInfo.Read 权限） ## 7. 聚满分知识库构建（17:51-18:05） - 用户上传24个培训资料文件，成功存入 `knowledge-base/聚满分知识库/` - 建立完整索引：knowledge-base/聚满分知识库/INDEX.md - 已阅读并理解核心内容： - PDF：认识利润、门店人效管理、如何开好班前会、训练四步骤 - Excel：前场/后厨/裱花工作流程、当班流程、检查表、评估表、出货规",
-      "recallCount": 1,
+      "recallCount": 3,
       "dailyCount": 0,
       "groundedCount": 0,
-      "totalScore": 0.39626159369945524,
+      "totalScore": 1.1230464816093444,
       "maxScore": 0.39626159369945524,
       "firstRecalledAt": "2026-06-09T08:50:57.058Z",
-      "lastRecalledAt": "2026-06-09T08:50:57.058Z",
+      "lastRecalledAt": "2026-06-25T05:11:37.727Z",
       "queryHashes": [
-        "044f2fbfb54c"
+        "044f2fbfb54c",
+        "3a1c290af895",
+        "074d667f5cc0"
       ],
       "recallDays": [
-        "2026-06-09"
+        "2026-06-09",
+        "2026-06-25"
       ],
       "conceptTags": [
         "wiki.workspace.read",

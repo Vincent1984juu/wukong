@@ -306,7 +306,7 @@ git push -u origin master
 
 **第一步：数据已分析，点击链接继续完成报告。**
 
-点击链接：👉 https://vincent1984juu.github.io/wukong/{拼音}-sunyi-{年月}-{时间戳}.html
+点击链接：👉 https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/{拼音}-sunyi-{年月}-{时间戳}.html
 
 **提示1：**
 
@@ -339,7 +339,7 @@ records.append({
     'store_name': '{门店名}',
     'region': '{区域}',
     'month': '{月份}',
-    'url': 'https://vincent1984juu.github.io/wukong/{拼音}-sunyi-{年月}-{时间戳}.html',
+    'url': 'https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/{拼音}-sunyi-{年月}-{时间戳}.html',
     'created_at': datetime.datetime.now().isoformat()
 })
 
@@ -451,7 +451,7 @@ else:
 
 GitHub Pages 有 **1-3分钟** 缓存，推送后需要稍等刷新。建议加 `?v=随机数` 参数强制刷新：
 ```
-https://vincent1984juu.github.io/wukong/wanmincheng-sunyi-202605.html?v=2
+https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/wanmincheng-sunyi-202605.html?v=2
 ```
 
 ---

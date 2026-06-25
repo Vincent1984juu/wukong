@@ -19,7 +19,7 @@ description: >
 
 **页面地址格式**：
 ```
-https://vincent1984juu.github.io/wukong/tiaozhan-{{时间戳}}.html
+https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/tiaozhan-{{时间戳}}.html
 ```
 
 **发送给店长的消息格式**：
@@ -43,7 +43,7 @@ https://vincent1984juu.github.io/wukong/tiaozhan-{{时间戳}}.html
 
 **店长发送链接后的处理流程**：
 
-1. **提取URL**：从店长消息中提取 `https://vincent1984juu.github.io/wukong/xxx-tiaozhan-xxx.html#data=...` 链接
+1. **提取URL**：从店长消息中提取 `https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/xxx-tiaozhan-xxx.html#data=...` 链接
 2. **解析数据**：提取 `#data=` 后面的Base64数据，解码为JSON
 3. **确认门店和区域**：从URL路径或数据中识别门店和区域
 4. **生成报告摘要**：将解析的数据格式化为易读的摘要
