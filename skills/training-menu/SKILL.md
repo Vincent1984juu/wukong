@@ -30,6 +30,48 @@ description: |
 
 ---
 
+## ⚠️ 钉钉 AI Card 限制（重要）
+
+**问题：** 钉钉 AI Card 模板会自动将内容重新分类显示（如"经营分析"、"培训管理"、"行政支持"），**覆盖**技能定义的菜单格式。
+
+**解决：** 触发此技能时，消息必须走**普通 Markdown** 路径，**禁用 AI Card**。
+
+### 发送方式
+
+| 场景 | 发送方式 | 说明 |
+|------|----------|------|
+| **Kimi 私聊** | 正常回复 | 显示标准菜单格式 ✅ |
+| **钉钉群@** | 需设置 `useAICard: false` | 否则显示 AI Card 预设分类 ❌ |
+| **钉钉私聊** | 需设置 `useAICard: false` | 否则显示 AI Card 预设分类 ❌ |
+
+### 技术说明
+
+在钉钉 connector 中发送消息时，需要明确设置参数：
+
+```javascript
+// 错误：使用 AI Card（内容会被模板覆盖）
+await sendProactive(config, target, content, {
+  useAICard: true  // ❌ 不要这样
+});
+
+// 正确：使用普通 Markdown 消息
+await sendProactive(config, target, content, {
+  useAICard: false,  // ✅ 禁用 AI Card
+  msgType: 'markdown'
+});
+```
+
+### 当前限制
+
+由于 OpenClaw 核心层在钉钉群中默认启用 AI Card，**此技能在钉钉群中的回复格式可能无法完全控制**。
+
+**临时解决方案：**
+1. 在 Kimi 中询问"你能做什么" → 显示标准格式
+2. 在钉钉群中询问 → 可能显示 AI Card 格式（经营分析/培训管理/行政支持）
+3. 如需统一格式，需要修改 OpenClaw 钉钉 connector 的默认配置
+
+---
+
 ## 标准回复格式（钉钉专用）
 
 ### 格式要求（严格遵守）
