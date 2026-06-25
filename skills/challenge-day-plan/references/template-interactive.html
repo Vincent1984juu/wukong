@@ -586,7 +586,7 @@
                 tip.innerHTML = `
                     <span style="font-weight:600;">⚠️ 当前在${isDingTalk ? '钉钉' : isWeChat ? '微信' : 'QQ'}内置浏览器中</span>
                     <br>
-                    <span style="font-size:13px;">部分功能受限（中途保存、报告截图等）。建议点击下方「下载」→「打开」→「浏览器打开」</span>
+                    <span style="font-size:13px;">部分功能受限（中途保存、报告截图等）。建议点击下方「下载」→「打开」→「浏览器打开」。如遇400错误，请关闭后稍等30秒重新打开。</span>
                     <button onclick="document.getElementById('browser-tip').remove();document.body.style.paddingTop='0';" style="margin-left:10px;background:#e65100;color:white;border:none;padding:4px 10px;border-radius:4px;font-size:12px;cursor:pointer;">知道了</button>
                 `;
                 document.body.appendChild(tip);
