@@ -19,7 +19,7 @@ description: |
 
 **页面地址格式**：
 ```
-https://vincent1984juu.github.io/-/{拼音}-{节日}-{时间戳}.html
+https://vincent1984juu.github.io/wukong/{拼音}-{节日}-{时间戳}.html
 ```
 
 **数据注入方式**：只注入节日名称，不注入门店和区域。
@@ -53,10 +53,10 @@ git push origin master
 ```
 🎯 **{节日} 作战计划**
 
-AI已为你准备好作战计划框架，点击链接填写即可。
+我已为你准备好作战计划框架，点击链接填写即可。
 
 👉 **点击填写：**
-https://vincent1984juu.github.io/-/{拼音}-{节日}-{时间戳}.html
+https://vincent1984juu.github.io/wukong/{拼音}-{节日}-{时间戳}.html
 
 **操作指引：**
 
@@ -91,7 +91,7 @@ if os.path.exists(pending_file):
 
 records.append({
     'holiday': '{节日}',
-    'url': 'https://vincent1984juu.github.io/-/{拼音}-{节日}-{时间戳}.html',
+    'url': 'https://vincent1984juu.github.io/wukong/{拼音}-{节日}-{时间戳}.html',
     'created_at': datetime.datetime.now().isoformat()
 })
 
@@ -178,24 +178,24 @@ resp = requests.post(api_url, headers={'x-acs-dingtalk-access-token': token, 'Co
 **同步成功后，回复格式：**
 
 ```
-✅ 同步成功！
+✅ {门店名} · {节日} 作战计划已同步到钉钉AI表格！
 
-**{门店名} · {节日} 作战计划**
+📊 同步内容：
+• 门店：{门店名}
+• 节日：{节日}
+• 去年营业额：¥{去年金额}
+• 目标营业额：¥{目标金额}
 
-● 门店：{门店名}
-● 区域：{区域}
-● 节日：{节日}
-● 目标营业额：¥{目标金额}
-● 去年营业额：¥{去年金额}
-● 同比增长：{增长率}%
-● 计划制定日期：{日期}
+⚠️ 注意：
+1. {未填写项1}
+2. {未填写项2}
+
+店长可以后续补充这些信息后，再次点击【同步到钉钉表格】更新。
 
 记录ID：{record_id}
 
-表格地址：
+📋 钉钉表格地址：
 https://alidocs.dingtalk.com/notable/XNkOM5jN7vj2YOY7?docKey=XNkOM5jN7vj2YOY7&entrance=data&sheetId=kggZCwE&viewId=j32Lj2G
-
-请检查钉钉表格确认数据完整。🔥
 ```
 
 > 注意：复盘字段（详细作战计划内容）因长度限制无法同步到钉钉表格，完整内容保存在报告链接中，点击"报告原文"可查看。

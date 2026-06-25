@@ -1,29 +1,29 @@
 {
   "stm": {
-    "count": 10,
-    "last_ts": "2026-06-22T00:47:30.889418",
-    "last_sessions": 49,
-    "last_messages": 1338,
-    "last_chars": 37799
+    "count": 11,
+    "last_ts": "2026-06-24T12:27:31.233553",
+    "last_sessions": 63,
+    "last_messages": 2132,
+    "last_chars": 40165
   },
   "diary": {
-    "count": 30,
-    "last_ts": "2026-06-23T03:42:03.199863",
+    "count": 33,
+    "last_ts": "2026-06-25T03:53:48.205129",
     "last_day": 22,
     "last_sessions": 7,
-    "last_messages": 429,
+    "last_messages": 2,
     "last_filename": "day22-2026-06-22-eight_format_tries_and_still_ugly.md",
     "last_latency_s": 16.3,
-    "last_skip": "no_sessions_today",
+    "last_skip": "messages<3",
     "last_error": "HTTP Error 400: Bad Request"
   },
   "compact": {
-    "count": 30,
-    "last_ts": "2026-06-23T03:42:16.044300",
-    "last_invoke": 17,
-    "last_sessions": 56,
-    "last_messages": 1905,
-    "last_latency_s": 11.7,
+    "count": 33,
+    "last_ts": "2026-06-25T03:54:01.971828",
+    "last_invoke": 19,
+    "last_sessions": 63,
+    "last_messages": 2138,
+    "last_latency_s": 12.5,
     "last_model": "k2p6",
     "last_skip": "stm_hash_unchanged",
     "last_error": "Unterminated string starting at: line 5 column 15 (char 820)"

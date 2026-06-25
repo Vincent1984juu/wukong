@@ -37,7 +37,79 @@ REGION_MAP = {
     "陈超平区": "dNFdDkNbm3",
 }
 
-# Token缓存
+# 节日ID映射
+HOLIDAY_MAP = {
+    "母亲节": "tRyPU7H6Wl",
+    "父亲节": "4ujjjpqBUG",
+    "情人节": "xpRZEEr66q",
+    "520": "OmDjAmuK2H",
+    "儿童节": "DagwoPOpUS",
+    "圣诞节": "2i03zyixgG"
+}
+
+# 节假日计划表格ID
+HOLIDAY_SHEET_ID = "kggZCwE"
+
+def parse_holiday_url(url):
+    """解析节假日计划URL中的数据"""
+    import base64, urllib.parse
+    
+    if "#data=" not in url:
+        return None
+    
+    hash_part = url.split("#data=")[1]
+    hash_part = urllib.parse.unquote(hash_part)
+    padding = 4 - len(hash_part) % 4
+    if padding != 4:
+        hash_part += "=" * padding
+    
+    try:
+        json_bytes = base64.b64decode(hash_part)
+        return json.loads(json_bytes.decode("utf-8"))
+    except Exception as e:
+        print(f"解析URL数据失败: {e}")
+        return None
+
+def sync_holiday_plan(url):
+    """同步节假日计划到钉钉AI表格"""
+    data = parse_holiday_url(url)
+    if not data:
+        return {"error": "无法解析URL数据"}
+    
+    token = get_access_token()
+    
+    # 构建字段
+    fields = {
+        "门店": data.get("storeName", ""),
+        "节日": HOLIDAY_MAP.get(data.get("holidayName", ""), "其他"),
+        "计划制定日期": int(time.time() * 1000),
+        "目标": "¥" + str(data.get("targetAmount", "待填写")),
+        "报告原文": {
+            "link": url,
+            "text": data.get("storeName", "") + " " + data.get("holidayName", "") + " 作战计划"
+        }
+    }
+    
+    # 区域处理（如果有）
+    region = data.get("region", "")
+    if region and region in REGION_MAP:
+        fields["区域"] = {"text": region, "choiceId": REGION_MAP[region]}
+    
+    payload = {"records": [{"fields": fields}]}
+    
+    # 调用API
+    api_url = f"{DINGTALK_API}/v1.0/notable/bases/{BASE_ID}/sheets/{HOLIDAY_SHEET_ID}/records?operatorId={OPERATOR_ID}"
+    resp = requests.post(
+        api_url,
+        headers={
+            "x-acs-dingtalk-access-token": token,
+            "Content-Type": "application/json"
+        },
+        json=payload,
+        timeout=10
+    )
+    
+    return resp.json()
 _token_cache = {
     "token": None,
     "expiry": 0

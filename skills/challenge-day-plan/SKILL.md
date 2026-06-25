@@ -19,7 +19,7 @@ description: >
 
 **页面地址格式**：
 ```
-https://vincent1984juu.github.io/-/tiaozhan-{{时间戳}}.html
+https://vincent1984juu.github.io/wukong/tiaozhan-{{时间戳}}.html
 ```
 
 **发送给店长的消息格式**：
@@ -30,7 +30,7 @@ https://vincent1984juu.github.io/-/tiaozhan-{{时间戳}}.html
 📋 请点击链接填写计划单：
 {{HTML页面链接}}
 
-💡 **提示1**：点链接后，在页面底部点【下载】—【打开】—【浏览器打开】，自动保存和截图功能更完整。
+💡 **提示1**：点击链接后，点右上角【...】，选浏览器打开，自动保存和截图功能更完整。
 
 💡 **提示2**：填完门店、区域、挑战日日期等数据后，点击【生成计划】→【📤 同步到钉钉表格】，把复制的链接发给我
 
@@ -43,7 +43,7 @@ https://vincent1984juu.github.io/-/tiaozhan-{{时间戳}}.html
 
 **店长发送链接后的处理流程**：
 
-1. **提取URL**：从店长消息中提取 `https://vincent1984juu.github.io/-/xxx-tiaozhan-xxx.html#data=...` 链接
+1. **提取URL**：从店长消息中提取 `https://vincent1984juu.github.io/wukong/xxx-tiaozhan-xxx.html#data=...` 链接
 2. **解析数据**：提取 `#data=` 后面的Base64数据，解码为JSON
 3. **确认门店和区域**：从URL路径或数据中识别门店和区域
 4. **生成报告摘要**：将解析的数据格式化为易读的摘要
