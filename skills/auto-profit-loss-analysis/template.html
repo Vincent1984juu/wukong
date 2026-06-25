@@ -911,6 +911,49 @@
             window.location.href = newUrl;
         }
 
+        // ========== 自动保存到localStorage ==========
+        function saveToLocalStorage() {
+            try {
+                const data = window.__AI_DATA__;
+                if (!data) return;
+
+                const formData = {
+                    baseData: data,
+                    diagnosis: selectedDiagnosis,
+                    rootCauses: Array.from(document.querySelectorAll('.root-cause-option.selected')).map(el => {
+                        const input = el.querySelector('.root-cause-text');
+                        return input ? input.value : el.textContent.trim();
+                    }),
+                    actions: [],
+                    targets: []
+                };
+
+                document.querySelectorAll('.action-plan-item').forEach(item => {
+                    formData.actions.push({
+                        desc: item.querySelector('.action-desc')?.value || '',
+                        owner: item.querySelector('.action-owner')?.value || '',
+                        deadline: item.querySelector('.action-deadline')?.value || '',
+                        metric: item.querySelector('.action-metric')?.value || '',
+                        target: item.querySelector('.action-target')?.value || ''
+                    });
+                });
+
+                document.querySelectorAll('.target-item').forEach(item => {
+                    const label = item.querySelector('.target-label')?.value || '';
+                    const value = item.querySelector('.target-input')?.value || '';
+                    if (label && value) {
+                        formData.targets.push({label, value});
+                    }
+                });
+
+                localStorage.setItem('profit_loss_draft_' + (data.storeName || 'unknown') + '_' + (data.month || ''), JSON.stringify(formData));
+                console.log('✅ 已自动保存到localStorage', new Date().toLocaleTimeString());
+            } catch(e) { console.log('自动保存失败:', e); }
+        }
+
+        // 每30秒自动保存
+        setInterval(saveToLocalStorage, 30000);
+
         // ========== 页面加载时尝试恢复数据 ==========
         function loadDataFromUrl() {
             const hash = window.location.hash;
@@ -970,6 +1013,63 @@
                 } catch (e) {
                     console.error('从URL恢复数据失败:', e);
                 }
+            } else {
+                // URL没有数据，尝试从localStorage恢复
+                try {
+                    const data = window.__AI_DATA__;
+                    if (!data) return;
+                    const key = 'profit_loss_draft_' + (data.storeName || 'unknown') + '_' + (data.month || '');
+                    const saved = localStorage.getItem(key);
+                    if (saved) {
+                        const savedData = JSON.parse(saved);
+                        
+                        // 恢复诊断类型
+                        if (savedData.diagnosis) {
+                            document.querySelectorAll('.diagnosis-option').forEach(opt => {
+                                if (opt.textContent === savedData.diagnosis) {
+                                    opt.classList.add('selected');
+                                    selectedDiagnosis = savedData.diagnosis;
+                                }
+                            });
+                        }
+                        
+                        // 恢复行动计划
+                        if (savedData.actions && savedData.actions.length > 0) {
+                            document.getElementById('actionPlanContainer').innerHTML = '';
+                            actionItemCount = 0;
+                            savedData.actions.forEach(action => {
+                                actionItemCount++;
+                                const container = document.getElementById('actionPlanContainer');
+                                const div = document.createElement('div');
+                                div.className = 'action-plan-item';
+                                div.innerHTML = `
+                                    <div class="action-plan-header">
+                                        <span class="action-plan-title">行动${actionItemCount}</span>
+                                        <button class="btn btn-secondary" style="padding:4px 12px;font-size:12px;" onclick="this.closest('.action-plan-item').remove()">删除</button>
+                                    </div>
+                                    <div class="action-plan-body">
+                                        <div class="form-group"><label>具体行动</label><input type="text" class="action-desc" value="${action.desc || ''}"></div>
+                                        <div class="form-group"><label>负责人</label><input type="text" class="action-owner" value="${action.owner || ''}"></div>
+                                        <div class="form-group"><label>完成时间</label><input type="text" class="action-deadline" value="${action.deadline || ''}"></div>
+                                        <div class="form-group"><label>衡量标准</label><input type="text" class="action-metric" value="${action.metric || ''}"></div>
+                                        <div class="form-group"><label>目标结果</label><input type="text" class="action-target" value="${action.target || ''}"></div>
+                                    </div>
+                                `;
+                                container.appendChild(div);
+                            });
+                        }
+                        
+                        // 恢复目标
+                        if (savedData.targets && savedData.targets.length > 0) {
+                            document.getElementById('targetContainer').innerHTML = '';
+                            savedData.targets.forEach(t => {
+                                addTarget(t.label, t.value);
+                            });
+                        }
+                        
+                        console.log('✅ 从localStorage恢复数据成功');
+                    }
+                } catch(e) { console.log('localStorage恢复失败:', e); }
             }
         }
 

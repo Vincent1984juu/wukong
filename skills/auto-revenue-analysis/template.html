@@ -1197,6 +1197,38 @@
             }, 4300);
         }
 
+        // ========== 自动保存到localStorage ==========
+        function saveToLocalStorage() {
+            try {
+                const data = window.__AI_DATA__;
+                if (!data) return;
+
+                const reportContent = {
+                    selectedDiagnosis: selectedDiagnosis,
+                    selectedRootCauses: selectedRootCauses,
+                    actions: Array.from(document.querySelectorAll('.action-plan-item')).map(item => ({
+                        desc: item.querySelector('.action-desc')?.value || '',
+                        owner: item.querySelector('.action-owner')?.value || '',
+                        deadline: item.querySelector('.action-deadline')?.value || '',
+                        metric: item.querySelector('.action-metric')?.value || '',
+                        target: item.querySelector('.action-target')?.value || ''
+                    })),
+                    targets: Array.from(document.querySelectorAll('#targetContainer .form-group')).map(group => {
+                        const labelInput = group.querySelector('.target-label-input');
+                        const label = labelInput ? labelInput.value : group.querySelector('label')?.textContent || '目标';
+                        const input = group.querySelector('.target-input');
+                        return { label: label, value: input ? input.value : '' };
+                    })
+                };
+
+                localStorage.setItem('report_' + (data.storeName || 'unknown') + '_' + (data.month || ''), JSON.stringify(reportContent));
+                console.log('✅ 已自动保存到localStorage', new Date().toLocaleTimeString());
+            } catch(e) { console.log('自动保存失败:', e); }
+        }
+
+        // 每30秒自动保存
+        setInterval(saveToLocalStorage, 30000);
+
         // 从可编辑的报告预览中更新钉钉文本
         function updateReportFromPreview() {
             const previewContent = document.getElementById('previewContent');
