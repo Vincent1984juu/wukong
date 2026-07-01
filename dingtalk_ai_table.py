@@ -24,6 +24,10 @@ DINGTALK_CLIENT_SECRET = "MEJt_n2jP3bKn30j9HF0nbL_XcFmx1zFTsIlEF6H1SHv_-DKtnytch
 DINGTALK_API = "https://api.dingtalk.com"
 DINGTALK_OAPI = "https://oapi.dingtalk.com"
 
+# 培训进度表格配置（人才培养专用）
+TRAINING_BASE_ID = "QPGYqjpJYrggLpOwiYovEPzE8akx1Z5N"
+TRAINING_SHEET_ID = "7Vzu8wt"  # 2026学员资料
+
 # 钉钉AI表格配置
 BASE_ID = "Y1OQX0akWm6nkvZquvN2ABAjVGlDd3mE"
 SHEET_ID = "hERWDMS"
@@ -205,8 +209,8 @@ def month_to_timestamp(month_str):
         except:
             return None
 
-def sync_report_to_dingtalk_ai_table(report_data):
-    """同步报告到钉钉AI表格"""
+def sync_profit_loss_to_dingtalk(report_data):
+    """同步损益分析报告到钉钉AI表格（损益分析sheet）"""
     token = get_access_token()
     if not token:
         print("❌ 获取钉钉Access Token失败")
@@ -215,11 +219,73 @@ def sync_report_to_dingtalk_ai_table(report_data):
     store_name = report_data.get('store_name', '')
     region = report_data.get('region', '')
     month = report_data.get('month', '')
-    report_content = report_data.get('report_content', '')
+    report_url = report_data.get('report_url', '')
     
-    # 格式化报告内容，使钉钉显示更友好
-    formatted_report = format_report_for_dingtalk(report_content)
+    print(f"同步损益分析到钉钉AI表格:")
+    print(f"  门店: {store_name}")
+    print(f"  区域: {region}")
+    print(f"  月份: {month}")
+    print(f"  链接: {report_url}")
     
+    # 损益分析sheetId
+    PROFIT_LOSS_SHEET_ID = "tPmsMAL"
+    
+    fields = {}
+    if report_url:
+        fields["报告原文"] = {
+            "link": report_url,
+            "text": f"{store_name} {month} 损益分析报告"
+        }
+    
+    # 经营月份（时间戳）
+    month_ts = month_to_timestamp(month)
+    if month_ts:
+        fields["经营月份"] = month_ts
+    
+    # 区域
+    region_id = REGION_MAP.get(region)
+    if region_id:
+        fields["区域"] = region
+    else:
+        fields["区域"] = region
+    
+    # 门店
+    fields["门店"] = store_name
+    
+    payload = {
+        "records": [
+            {
+                "fields": fields
+            }
+        ]
+    }
+    
+    try:
+        api_url = f"{DINGTALK_API}/v1.0/notable/bases/{BASE_ID}/sheets/{PROFIT_LOSS_SHEET_ID}/records?operatorId={OPERATOR_ID}"
+        resp = requests.post(
+            api_url,
+            headers={
+                "x-acs-dingtalk-access-token": token,
+                "Content-Type": "application/json"
+            },
+            json=payload,
+            timeout=10
+        )
+        print(f"  API响应: {resp.status_code}")
+        if resp.status_code in [200, 201]:
+            result = resp.json()
+            print(f"  ✅ 同步成功！")
+            if result.get('value'):
+                for r in result['value']:
+                    print(f"     记录ID: {r.get('id')}")
+            return True
+        else:
+            print(f"  ❌ 同步失败: {resp.text}")
+            return False
+    except Exception as e:
+        print(f"  ❌ 同步异常: {e}")
+        return False
+
 def sync_report_to_dingtalk_ai_table(report_data):
     """同步报告到钉钉AI表格"""
     token = get_access_token()

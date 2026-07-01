@@ -306,7 +306,7 @@ git push -u origin master
 
 **第一步：数据已分析，点击链接继续完成报告。**
 
-点击链接：👉 https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/{拼音}-sunyi-{年月}-{时间戳}.html
+点击链接：👉 https://htmlpreview.github.io/?https://raw.githubusercontent.com/Vincent1984juu/wukong/master/{拼音}-sunyi-{年月}-{时间戳}.html
 
 **提示1：**
 
@@ -339,7 +339,7 @@ records.append({
     'store_name': '{门店名}',
     'region': '{区域}',
     'month': '{月份}',
-    'url': 'https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/{拼音}-sunyi-{年月}-{时间戳}.html',
+    'url': 'https://htmlpreview.github.io/?https://raw.githubusercontent.com/Vincent1984juu/wukong/master/{拼音}-sunyi-{年月}-{时间戳}.html',
     'created_at': datetime.datetime.now().isoformat()
 })
 
@@ -374,7 +374,7 @@ print('✅ 已记录待同步链接')
 **重要：优先使用店长粘贴的链接（含 `#data=`），而非待同步记录。**
 
 **执行流程：**
-1. 检查店长消息中是否包含 `https://vincent1984juu.github.io` 链接
+1. 检查店长消息中是否包含 `https://htmlpreview.github.io` 链接
 2. 如果包含，提取该链接作为 `report_url`
 3. 如果不包含，读取 `memory/profit-loss-pending.json`，取最近记录作为 `report_url`
 4. 调用 `sync_profit_loss_to_dingtalk` 同步链接
@@ -432,7 +432,7 @@ else:
 
 ✅ 报告已同步到钉钉AI表格
 
-表格地址：https://alidocs.dingtalk.com/notable/XNkOM5jN7vj2YOY7?docKey=XNkOM5jN7vj2YOY7&entrance=data&newPanel=true&sheetId=kggZCwE&viewId=j32Lj2G
+表格地址：https://alidocs.dingtalk.com/i/nodes/Y1OQX0akWm6nkvZquvN2ABAjVGlDd3mE?iframeQuery=sheetId%3DtPmsMAL%26viewId%3DZjIwDlt
 
 点击表格中"报告原文"列的链接即可查看完整报告
 
@@ -451,7 +451,7 @@ else:
 
 GitHub Pages 有 **1-3分钟** 缓存，推送后需要稍等刷新。建议加 `?v=随机数` 参数强制刷新：
 ```
-https://cdn.jsdelivr.net/gh/Vincent1984juu/wukong@master/wanmincheng-sunyi-202605.html?v=2
+https://htmlpreview.github.io/?https://raw.githubusercontent.com/Vincent1984juu/wukong/master/wanmincheng-sunyi-202605.html?v=2
 ```
 
 ---
